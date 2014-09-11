@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-audit-service", "open-audit-service\open-audit-service.csproj", "{04E9F9C7-8E76-4BBA-8935-B7E65AB57DF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-audit-config", "open-audit-config\open-audit-config.csproj", "{1435270B-12B5-4ED3-BC72-0594570CC17D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-audit-lib", "open-audit-lib\open-audit-lib.csproj", "{836DF938-6FA4-4757-8724-4305A600620A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04E9F9C7-8E76-4BBA-8935-B7E65AB57DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04E9F9C7-8E76-4BBA-8935-B7E65AB57DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04E9F9C7-8E76-4BBA-8935-B7E65AB57DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04E9F9C7-8E76-4BBA-8935-B7E65AB57DF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1435270B-12B5-4ED3-BC72-0594570CC17D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1435270B-12B5-4ED3-BC72-0594570CC17D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1435270B-12B5-4ED3-BC72-0594570CC17D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1435270B-12B5-4ED3-BC72-0594570CC17D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{836DF938-6FA4-4757-8724-4305A600620A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{836DF938-6FA4-4757-8724-4305A600620A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{836DF938-6FA4-4757-8724-4305A600620A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{836DF938-6FA4-4757-8724-4305A600620A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
