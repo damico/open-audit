@@ -1,4 +1,5 @@
-﻿using open_audit_lib.threads;
+﻿using open_audit_lib;
+using open_audit_lib.threads;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,7 @@ namespace open_audit_service
 {
     public partial class OpenAuditServiceImpl : ServiceBase
     {
+        
         private static System.Timers.Timer aTimer;
         public OpenAuditServiceImpl()
         {
@@ -25,7 +27,9 @@ namespace open_audit_service
             {
                 aTimer = new System.Timers.Timer(10000);
                 aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-                aTimer.Interval = 2000;
+
+                int interval = 3600000;
+                aTimer.Interval = interval;
                 aTimer.Enabled = true;
             }
             catch (Exception)

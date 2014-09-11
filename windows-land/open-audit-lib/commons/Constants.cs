@@ -6,6 +6,8 @@ namespace open_audit_lib
 {
     public class Constants
     {
+        public static int STATIC_ERROR_COUNTER = 0;
+        public static int STATIC_RUN_COUNTER = 0;
         public const String CONF_PATH = @"conf\open-audit.conf";
         public const String APP_NAME = "Open Audit"; 
     }

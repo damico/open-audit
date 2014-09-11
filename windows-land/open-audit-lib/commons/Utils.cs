@@ -108,7 +108,7 @@ namespace open_audit_lib
             {
                 StringBuilder output = new StringBuilder();
 
-                String xmlString = getTextFromFile(Constants.CONF_PATH);
+                String xmlString = getTextFromFile(getConfPath());
                 if (xmlString != null)
                 {
                     config = parseConfig(xmlString);
@@ -121,6 +121,22 @@ namespace open_audit_lib
             }
 
             return config;
+        }
+
+        public String getConfPath()
+        {
+            String confPath = null;
+            try
+            {
+                String prePath86 = Environment.GetEnvironmentVariable("ProgramFiles(x86)") + @"\open-audit\" + Constants.CONF_PATH;
+                String prePath64 = Environment.GetEnvironmentVariable("ProgramFiles") + @"\open-audit\" + Constants.CONF_PATH;
+
+                if (File.Exists(prePath86)) confPath = prePath86;
+                else if (File.Exists(prePath64)) confPath = prePath64;
+            }
+            catch (Exception)
+            { }
+            return confPath;
         }
 
         public String getTextFromFile(String filePath)
