@@ -40,20 +40,24 @@
             // buttonContinue
             // 
             this.buttonContinue.BackColor = System.Drawing.Color.YellowGreen;
+            this.buttonContinue.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonContinue.Location = new System.Drawing.Point(12, 35);
             this.buttonContinue.Name = "buttonContinue";
-            this.buttonContinue.Size = new System.Drawing.Size(209, 44);
-            this.buttonContinue.TabIndex = 0;
+            this.buttonContinue.Size = new System.Drawing.Size(224, 44);
+            this.buttonContinue.TabIndex = 2;
             this.buttonContinue.Text = "Continuar";
             this.buttonContinue.UseVisualStyleBackColor = false;
             this.buttonContinue.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBoxId
             // 
-            this.textBoxId.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.textBoxId.AcceptsReturn = true;
+            this.textBoxId.BackColor = System.Drawing.Color.DarkBlue;
+            this.textBoxId.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxId.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.textBoxId.Location = new System.Drawing.Point(30, 9);
             this.textBoxId.Name = "textBoxId";
-            this.textBoxId.Size = new System.Drawing.Size(191, 20);
+            this.textBoxId.Size = new System.Drawing.Size(206, 21);
             this.textBoxId.TabIndex = 1;
             // 
             // label1
@@ -72,7 +76,7 @@
             this.textBoxDetails.Location = new System.Drawing.Point(12, 98);
             this.textBoxDetails.Multiline = true;
             this.textBoxDetails.Name = "textBoxDetails";
-            this.textBoxDetails.Size = new System.Drawing.Size(208, 99);
+            this.textBoxDetails.Size = new System.Drawing.Size(224, 99);
             this.textBoxDetails.TabIndex = 3;
             // 
             // label2
@@ -86,19 +90,21 @@
             // 
             // buttonSelectCopy
             // 
+            this.buttonSelectCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonSelectCopy.Location = new System.Drawing.Point(13, 204);
             this.buttonSelectCopy.Name = "buttonSelectCopy";
-            this.buttonSelectCopy.Size = new System.Drawing.Size(207, 25);
-            this.buttonSelectCopy.TabIndex = 5;
+            this.buttonSelectCopy.Size = new System.Drawing.Size(223, 25);
+            this.buttonSelectCopy.TabIndex = 4;
             this.buttonSelectCopy.Text = "Selecionar e Copiar";
             this.buttonSelectCopy.UseVisualStyleBackColor = true;
             this.buttonSelectCopy.Click += new System.EventHandler(this.button2_Click);
             // 
-            // Form1
+            // OpenAuditConfigForm
             // 
+            this.AcceptButton = this.buttonContinue;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(231, 239);
+            this.ClientSize = new System.Drawing.Size(248, 239);
             this.ControlBox = false;
             this.Controls.Add(this.buttonSelectCopy);
             this.Controls.Add(this.label2);
@@ -108,7 +114,9 @@
             this.Controls.Add(this.buttonContinue);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "OpenAuditConfigForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Open Audit Config";
             this.ResumeLayout(false);

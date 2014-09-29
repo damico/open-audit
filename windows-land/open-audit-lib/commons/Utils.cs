@@ -1,8 +1,10 @@
 ﻿using open_audit_lib.dataobjects;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Security;
 using System.Text;
 using System.Xml;
 
@@ -10,8 +12,11 @@ namespace open_audit_lib
 {
     public class Utils
     {
+
+
         public String getUrlStatusCode(String url)
         {
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
             String ret = null;
             HttpStatusCode result = default(HttpStatusCode);
             try
@@ -38,10 +43,14 @@ namespace open_audit_lib
 
         public String getTextFromUrl(String urlStr)
         {
+
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
             String ret = null;
 
             try
             {
+
+
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlStr);
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 if (response.StatusCode == HttpStatusCode.OK)
@@ -67,6 +76,7 @@ namespace open_audit_lib
         {
             try
             {
+                if (File.Exists(configPath)) File.Delete(configPath);
                 using (StreamWriter outfile = new StreamWriter(configPath))
                 {
                     outfile.Write(config);
@@ -91,6 +101,9 @@ namespace open_audit_lib
                     config.strId = reader.GetAttribute("strId");
                     config.remoteServer = reader.GetAttribute("remoteServer");
                     config.remoteTarget = reader.GetAttribute("remoteTarget");
+                    config.downloadUrl = reader.GetAttribute("downloadUrl");
+                    config.uploadUrl = reader.GetAttribute("uploadUrl");
+                    config.version = reader.GetAttribute("version");
                 }
             }
             catch (Exception e)
@@ -101,6 +114,19 @@ namespace open_audit_lib
             return config;
         }
 
+        public void writeEventLog(string sEvent)
+        {
+            String sSource;
+            String sLog;
+
+            sSource = Constants.APP_NAME;
+            sLog = "Application";
+
+            if (!EventLog.SourceExists(sSource)) EventLog.CreateEventSource(sSource, sLog);
+
+            EventLog.WriteEntry(sSource, sEvent, EventLogEntryType.Warning, 234);
+        }
+
         public ConfigObj readConfig()
         {
             ConfigObj config = new ConfigObj();
@@ -108,7 +134,7 @@ namespace open_audit_lib
             {
                 StringBuilder output = new StringBuilder();
 
-                String xmlString = getTextFromFile(getConfPath());
+                String xmlString = getTextFromFile(getConfPath(Constants.CONF_PATH));
                 if (xmlString != null)
                 {
                     config = parseConfig(xmlString);
@@ -123,13 +149,13 @@ namespace open_audit_lib
             return config;
         }
 
-        public String getConfPath()
+        public String getConfPath(String targetPath)
         {
             String confPath = null;
             try
             {
-                String prePath86 = Environment.GetEnvironmentVariable("ProgramFiles(x86)") + @"\open-audit\" + Constants.CONF_PATH;
-                String prePath64 = Environment.GetEnvironmentVariable("ProgramFiles") + @"\open-audit\" + Constants.CONF_PATH;
+                String prePath86 = Environment.GetEnvironmentVariable("ProgramFiles(x86)") + @"\open-audit\" + targetPath;
+                String prePath64 = Environment.GetEnvironmentVariable("ProgramFiles") + @"\open-audit\" + targetPath;
 
                 if (File.Exists(prePath86)) confPath = prePath86;
                 else if (File.Exists(prePath64)) confPath = prePath64;

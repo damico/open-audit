@@ -14,7 +14,7 @@ namespace open_audit_service
 {
     public partial class OpenAuditServiceImpl : ServiceBase
     {
-        
+        private Utils util = new Utils();
         private static System.Timers.Timer aTimer;
         public OpenAuditServiceImpl()
         {
@@ -31,9 +31,17 @@ namespace open_audit_service
                 int interval = 3600000;
                 aTimer.Interval = interval;
                 aTimer.Enabled = true;
+
+                if (Constants.STATIC_RUN_COUNTER == 0)
+                {
+                    runThread();
+                }
             }
-            catch (Exception)
-            { }
+            catch (Exception ex)
+            {
+                util.writeEventLog(ex.Message);
+                util.writeEventLog(ex.StackTrace);  
+            }
             
         }
 
@@ -48,8 +56,11 @@ namespace open_audit_service
                     aTimer.Close();
                 }
             }
-            catch (Exception)
-            {}
+            catch (Exception ex)
+            {
+                util.writeEventLog(ex.Message);
+                util.writeEventLog(ex.StackTrace);
+            }
             
         }
 
@@ -57,13 +68,21 @@ namespace open_audit_service
         {
             try
             {
-                ServiceThreadImpl serviceTimpl = new ServiceThreadImpl();
-                Thread serviceThread = new Thread(new ThreadStart(serviceTimpl.run));
-                serviceThread.Start();
+                runThread();
             }
-            catch (Exception)
-            { }
+            catch (Exception ex)
+            {
+                util.writeEventLog(ex.Message);
+                util.writeEventLog(ex.StackTrace);
+            }
             
+        }
+
+        private void runThread()
+        {
+            ServiceThreadImpl serviceTimpl = new ServiceThreadImpl();
+            Thread serviceThread = new Thread(new ThreadStart(serviceTimpl.runHeartBeat));
+            serviceThread.Start();
         }
     }
 }

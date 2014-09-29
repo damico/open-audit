@@ -37,7 +37,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -49,6 +51,12 @@
       <DependentUpon>OpenAuditServiceImpl.cs</DependentUpon>
     </Compile>
     <Compile Include="OpenAuditService.cs" />
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +70,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Hopstarter-Scrap-Magnifying-Glass.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="OpenAuditServiceImpl.resx">
+      <DependentUpon>OpenAuditServiceImpl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

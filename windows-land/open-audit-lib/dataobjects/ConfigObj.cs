@@ -9,6 +9,8 @@ namespace open_audit_lib.dataobjects
         public String remoteServer { get; set; }
         public String strId { get; set; }
         public String remoteTarget { get; set; }
-
+        public String uploadUrl { get; set; }
+        public String downloadUrl { get; set; }
+        public String version { get; set; }
     }
 }
