@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{04E9F9C7-8E76-4BBA-8935-B7E65AB57DF5}</ProjectGuid>
+    <ProjectGuid>{ADC278D0-4ACF-45B2-A118-22C0BA7A538D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>open_audit_service</RootNamespace>
-    <AssemblyName>open-audit-service</AssemblyName>
+    <RootNamespace>open_audit_check_service</RootNamespace>
+    <AssemblyName>open-audit-check-service</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -35,24 +35,22 @@
   <PropertyGroup>
     <ApplicationIcon>Hopstarter-Scrap-Magnifying-Glass.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup />
-  <PropertyGroup />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Data" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OpenAuditServiceImpl.cs">
+    <Compile Include="OpenAuditCheckServiceImpl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OpenAuditServiceImpl.Designer.cs">
-      <DependentUpon>OpenAuditServiceImpl.cs</DependentUpon>
+    <Compile Include="OpenAuditCheckServiceImpl.Designer.cs">
+      <DependentUpon>OpenAuditCheckServiceImpl.cs</DependentUpon>
     </Compile>
-    <Compile Include="OpenAuditService.cs" />
+    <Compile Include="OpenAuditCheckService.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -74,8 +72,8 @@
     <Content Include="Hopstarter-Scrap-Magnifying-Glass.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="OpenAuditServiceImpl.resx">
-      <DependentUpon>OpenAuditServiceImpl.cs</DependentUpon>
+    <EmbeddedResource Include="OpenAuditCheckServiceImpl.resx">
+      <DependentUpon>OpenAuditCheckServiceImpl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>

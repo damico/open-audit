@@ -36,11 +36,13 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="commons\Constants.cs" />
     <Compile Include="dataobjects\ConfigObj.cs" />
+    <Compile Include="threads\CheckServiceThreadImpl.cs" />
     <Compile Include="threads\ServiceThreadImpl.cs" />
     <Compile Include="commons\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

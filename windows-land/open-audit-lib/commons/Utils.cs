@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Security;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 
@@ -41,6 +42,13 @@ namespace open_audit_lib
             return ret;
         }
 
+        public String getAssemblyVersion()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return fvi.FileVersion;
+        }
+
         public String getTextFromUrl(String urlStr)
         {
 
@@ -67,9 +75,39 @@ namespace open_audit_lib
             return ret;
         }
 
+        
+
+
         public void writeConfig(ConfigObj config, String configPath)
         {
+            StringBuilder sb = null;
+            try
+            {
 
+                sb = new StringBuilder();
+
+                sb.Append("<?xml version='1.0' encoding='UTF-8' standalone='yes'?>\n");
+                sb.Append(" <openaudit>\n");
+                sb.Append("     <config strId='"+config.strId+"' remoteServer='"+config.remoteServer+"' remoteTarget='"+config.remoteTarget+"' version='"+config.version+"' uploadUrl='"+config.uploadUrl+"' downloadUrl='"+config.downloadUrl+"' >\n");
+                sb.Append("     </config>\n");
+                sb.Append(" </openaudit>\n");
+
+                if (File.Exists(configPath)) File.Delete(configPath);
+                using (StreamWriter outfile = new StreamWriter(configPath))
+                {
+                    outfile.Write(sb.ToString());
+                    outfile.Close();
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally
+            {
+                if (sb != null) sb = null;
+            }
         }
 
         public void writeConfig(String config, String configPath)
@@ -119,12 +157,65 @@ namespace open_audit_lib
             String sSource;
             String sLog;
 
-            sSource = Constants.APP_NAME;
+            sSource = Constants.APP_NAME+"_Event";
             sLog = "Application";
 
-            if (!EventLog.SourceExists(sSource)) EventLog.CreateEventSource(sSource, sLog);
+            bool sourceExist = false;
+            bool crash = true;
 
-            EventLog.WriteEntry(sSource, sEvent, EventLogEntryType.Warning, 234);
+            try
+            {
+                if (EventLog.SourceExists(sSource))
+                {
+                    sourceExist = true;
+                    crash = false;
+                }
+            }
+            catch (Exception)
+            {}
+
+            try
+            {
+                if (!sourceExist && !crash)
+                {
+                    EventLog.CreateEventSource(sSource, sLog);
+                    EventLog.WriteEntry(sSource, sEvent, EventLogEntryType.Error);
+                }
+            }
+            catch (Exception)
+            {}
+            
+
+            writeToLogFile(sEvent);
+        }
+
+        public String getPfPath()
+        {
+            String pFPath = null;
+            String prePath86 = Environment.GetEnvironmentVariable("ProgramFiles(x86)") + @"\open-audit\";
+            String prePath64 = Environment.GetEnvironmentVariable("ProgramFiles") + @"\open-audit\";
+            if (Directory.Exists(prePath86)) pFPath = prePath86;
+            else if (Directory.Exists(prePath64)) pFPath = prePath64;
+            return pFPath;
+        }
+
+        public void writeToLogFile(String logLine) {
+
+            try
+            {
+                DateTime dt = DateTime.Now;
+                String timeStamp = String.Format("{0:s}", dt);  // "2008-03-09T16:05:07" 
+                File.AppendAllText(getLogPath(), timeStamp+" - "+logLine + "\n");
+            }
+            catch (Exception)
+            {}
+            
+
+        }
+
+        public String getLogPath()
+        {
+            return getPfPath() + "\\" + Constants.LOG_NAME;
         }
 
         public ConfigObj readConfig()
@@ -154,14 +245,14 @@ namespace open_audit_lib
             String confPath = null;
             try
             {
-                String prePath86 = Environment.GetEnvironmentVariable("ProgramFiles(x86)") + @"\open-audit\" + targetPath;
-                String prePath64 = Environment.GetEnvironmentVariable("ProgramFiles") + @"\open-audit\" + targetPath;
+                String prePath = getPfPath() + "\\" + targetPath;
 
-                if (File.Exists(prePath86)) confPath = prePath86;
-                else if (File.Exists(prePath64)) confPath = prePath64;
+                if (File.Exists(prePath)) confPath = prePath;
             }
-            catch (Exception)
-            { }
+            catch (Exception e)
+            {
+                writeToLogFile(e.Message + " - " + e.StackTrace);
+            }
             return confPath;
         }
 
@@ -181,6 +272,24 @@ namespace open_audit_lib
                 throw e;
             }
             return ret;
+        }
+
+        public void deleteFileBiggerThan(long fileSize, String filePath)
+        {
+            try
+            {
+                FileInfo fileInfo = new FileInfo(filePath);
+                long realSize = fileInfo.Length;
+                if (realSize > fileSize)
+                {
+                    File.Delete(filePath);
+                    writeToLogFile("Log file deleted with " + realSize + " length.");
+                }
+            }
+            catch (Exception)
+            { }
+            
+
         }
     }
 

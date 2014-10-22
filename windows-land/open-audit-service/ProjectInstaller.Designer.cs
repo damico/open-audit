@@ -33,7 +33,7 @@
             // 
             // OpenAuditServiceProcessInstaller
             // 
-            this.OpenAuditServiceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalService;
+            this.OpenAuditServiceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
             this.OpenAuditServiceProcessInstaller.Password = null;
             this.OpenAuditServiceProcessInstaller.Username = null;
             // 

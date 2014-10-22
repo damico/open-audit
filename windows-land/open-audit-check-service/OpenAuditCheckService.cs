@@ -6,20 +6,15 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 
-namespace open_audit_service
+namespace open_audit_check_service
 {
-    static class OpenAuditService
+    static class OpenAuditCheckService
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        ///
-
-
-
         static void Main(string[] args)
         {
-
             if (System.Environment.UserInteractive)
             {
                 string parameter = string.Concat(args);
@@ -41,14 +36,12 @@ namespace open_audit_service
                 ServiceBase[] ServicesToRun;
                 ServicesToRun = new ServiceBase[] 
             { 
-                new OpenAuditServiceImpl() 
+                new OpenAuditCheckServiceImpl() 
             };
                 ServiceBase.Run(ServicesToRun);
             }
-
-
-            
         }
+
 
         private static void serviceStart()
         {
@@ -58,10 +51,10 @@ namespace open_audit_service
             foreach (ServiceController scTemp in scServices)
             {
 
-                if (scTemp.ServiceName == "open-audit-service")
+                if (scTemp.ServiceName == "open-audit-check-service")
                 {
 
-                    ServiceController sc = new ServiceController("open-audit-service");
+                    ServiceController sc = new ServiceController("open-audit-check-service");
                     if (sc.Status == ServiceControllerStatus.Stopped)
                     {
                         int tries = 0;

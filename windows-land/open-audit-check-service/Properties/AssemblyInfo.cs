@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("open-audit-service")]
-[assembly: AssemblyDescription("Windows service of Open Audit")]
+[assembly: AssemblyTitle("open-audit-check-service")]
+[assembly: AssemblyDescription("Service Checker for Open Audit main service")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("JOSE DAMICO")]
-[assembly: AssemblyProduct("open-audit-service")]
+[assembly: AssemblyProduct("open-audit-check-service")]
 [assembly: AssemblyCopyright("Copyleft  2014 - JOSE DAMICO")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c0928938-af49-430b-82cc-83a655b01468")]
+[assembly: Guid("97f5c29f-8e5f-4bfe-99eb-2a85272c2368")]
 
 // Version information for an assembly consists of the following four values:
 //

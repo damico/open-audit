@@ -76,14 +76,18 @@ namespace open_audit_lib.threads
         public void runHeartBeat()
         {
             Constants.STATIC_RUN_COUNTER++;
+            Utils util = new Utils();
             try
             {
-                Utils util = new Utils();
+                
                 ConfigObj cfg = util.readConfig();
                 if (cfg != null && cfg.remoteTarget != null && cfg.remoteServer != null && cfg.strId != null)
                 {
                     String data = util.getUrlStatusCode(cfg.remoteTarget);
-                    String code = util.getUrlStatusCode(cfg.remoteServer + "?action=ACK&data=" + data + "&version = "+cfg.version+"&strId=" + cfg.strId + "&errorcounter=" + Constants.STATIC_ERROR_COUNTER + "&runcounter=" + Constants.STATIC_RUN_COUNTER);
+                    String link = cfg.remoteServer + "?action=ACK&data=" + data + "&version="+util.getAssemblyVersion()+"&strId=" + cfg.strId + "&errorcounter=" + Constants.STATIC_ERROR_COUNTER + "&runcounter=" + Constants.STATIC_RUN_COUNTER;
+                    link = link.Trim();
+                    String code = util.getUrlStatusCode(link);
+                    util.writeToLogFile(link);
                     if (code != null)
                     {
                         if (!code.Equals("OK"))
@@ -102,7 +106,8 @@ namespace open_audit_lib.threads
             catch (Exception e)
             {
                 Constants.STATIC_ERROR_COUNTER++;
-                throw e;
+                util.writeEventLog(e.Message);
+                util.writeEventLog(e.StackTrace);
             }
             
         }

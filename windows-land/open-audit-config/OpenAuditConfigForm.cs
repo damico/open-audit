@@ -18,9 +18,8 @@ namespace open_audit_config
         public OpenAuditConfigForm(String initParam)
         {
             InitializeComponent();
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            this.Text = Constants.APP_NAME + " " + fvi.FileVersion;
+            Utils u = new Utils();
+            this.Text = Constants.APP_NAME + " " + u.getAssemblyVersion();
             textBoxId.Focus();
             if (initParam != null && initParam.Length > 0)
             {
@@ -31,7 +30,10 @@ namespace open_audit_config
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             registerConfig(textBoxId.Text);
+            
+            
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -55,6 +57,7 @@ namespace open_audit_config
 
         private void registerConfig(String id)
         {
+            StringBuilder sb = new StringBuilder();
             try
             {
                 buttonContinue.Enabled = false;
@@ -65,51 +68,57 @@ namespace open_audit_config
                     ConfigObj cfg = util.readConfig();
                     if (cfg != null && cfg.remoteServer != null && cfg.remoteServer.Length > 12)
                     {
-                        String newCfg = util.getTextFromUrl(cfg.remoteServer + "?action=config&data=" + textBoxId.Text);
+                        String newCfg = util.getTextFromUrl(cfg.remoteServer + "?action=config&data=" + textBoxId.Text + "&version="+util.getAssemblyVersion());
+                        
                         if (newCfg != null)
                         {
                             cfg = util.parseConfig(newCfg);
+                            cfg.version = util.getAssemblyVersion();
                             if (cfg != null && cfg.remoteServer != null && cfg.remoteTarget != null && cfg.remoteTarget != null)
                             {
-                                util.writeConfig(newCfg, util.getConfPath(Constants.CONF_PATH));
+                                cfg.version = util.getAssemblyVersion();
+                                util.writeConfig(cfg, util.getConfPath(Constants.CONF_PATH));
                                 cfg = util.readConfig();
                                 if (cfg != null && cfg.remoteTarget.Length > 12)
                                 {
                                     String code = util.getUrlStatusCode(cfg.remoteTarget);
                                     if (code.Equals("OK"))
                                     {
-                                        textBoxDetails.Text = "SUCCESS!";
+                                        textBoxDetails.Text = "SUCCESS! ";
                                         System.Environment.Exit(0);
                                     }
-                                    else textBoxDetails.Text = "Unable to reach remote target!";
+                                    else sb.Append("Unable to reach remote target! ");
                                 }
 
                             }
                             else
                             {
-                                textBoxDetails.Text = "Unable to reach remote server!";
+                                sb.Append("Unable to reach remote server! ");
                             }
                         }
                         else
                         {
-                            textBoxDetails.Text = "Invalid config file.";
+                            sb.Append("Invalid config file. ");
                         }
                     }
                     else
                     {
-                        textBoxDetails.Text = "Unable to read pre-config file.";
+                        sb.Append("Unable to read pre-config file. ");
                     }
                 }
                 else
                 {
-                    textBoxDetails.Text = "ID cannot be null!";
+                    sb.Append("ID cannot be null! ");
                     buttonContinue.Enabled = true;
                 }
+
+                if (sb.Length > 0) textBoxDetails.Text = (sb.ToString());
             }
             catch (Exception exc)
             {
-                textBoxDetails.Text = ("Failed at initialization. " + exc.Message);
+                sb.Append(" Failed at initialization. " + exc.Message);
                 buttonContinue.Enabled = true;
+                textBoxDetails.Text = (sb.ToString());
             }
         }
     }

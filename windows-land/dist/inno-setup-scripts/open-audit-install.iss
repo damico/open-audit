@@ -2,7 +2,7 @@
 #pragma parseroption -b- -u+
 #pragma verboselevel 9
 #define MyAppName "Open Audit"
-#define MyAppVersion "0.60"
+#define MyAppVersion "0.74"
 #define MyAppPublisher "JOSE DAMICO"
 #define MyAppURL "https:\\github.com\damico\open-audit"
 
@@ -12,31 +12,35 @@ AppPublisher=JOSE_DAMICO
 AppPublisherURL=https:\\github.com\damico\open-audit
 PrivilegesRequired=admin
 AppName=OpenAudit
-AppVersion=0.60
+AppVersion=0.74
 DefaultDirName={pf}\open-audit
 DefaultGroupName=OpenAudit
 Compression=lzma2
 SolidCompression=yes
 UninstallDisplayIcon={app}\open-audit-config.exe
 SetupIconFile=pkg\Hopstarter-Scrap-Magnifying-Glass.ico
-OutputBaseFilename=pkg\open-audit-setup-0.60
+OutputBaseFilename=pkg\open-audit-setup-0.74
 OutputDir=.\
 
 
 [Files]
 Source: "..\..\open-audit-config\bin\release\open-audit-config.exe"; DestDir: "{app}";
 Source: "..\..\open-audit-config\bin\release\open-audit-lib.dll"; DestDir: "{app}";
-Source: "pkg\conf\open-audit.conf"; DestDir: "{app}\conf"
-Source: "pkg\conf\up.dat"; DestDir: "{app}\conf"
+Source: "pkg\conf\open-audit.conf"; DestDir: "{app}\conf";
+Source: "pkg\conf\up.dat"; DestDir: "{app}\conf";
+Source: "..\..\open-audit-check-service\bin\release\open-audit-check-service.exe"; DestDir: "{app}";
 Source: "..\..\open-audit-service\bin\release\open-audit-service.exe"; DestDir: "{app}"; AfterInstall: AfterMyProgInstall()
 
 
 [Run]
 Filename: "{app}\open-audit-service.exe"; Parameters: "--install"; 
 Filename: "{app}\open-audit-service.exe"; Parameters: "--start";
+Filename: "{app}\open-audit-check-service.exe"; Parameters: "--install"; 
+Filename: "{app}\open-audit-check-service.exe"; Parameters: "--start";
 
 [UninstallRun]
 Filename: "{app}\open-audit-service.exe"; Parameters: "--uninstall";
+Filename: "{app}\open-audit-check-service.exe"; Parameters: "--uninstall";
 
 [Code]
 function GetCommandlineParam ():String; 

@@ -1,22 +1,18 @@
 ﻿using open_audit_lib;
 using open_audit_lib.threads;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.ServiceProcess;
-using System.Text;
 using System.Threading;
 using System.Timers;
 
-namespace open_audit_service
+namespace open_audit_check_service
 {
-    public partial class OpenAuditServiceImpl : ServiceBase
+    public partial class OpenAuditCheckServiceImpl : ServiceBase
     {
+        private bool started = false;
         private Utils util = new Utils();
         private static System.Timers.Timer aTimer;
-        public OpenAuditServiceImpl()
+        public OpenAuditCheckServiceImpl()
         {
             InitializeComponent();
         }
@@ -28,11 +24,10 @@ namespace open_audit_service
                 aTimer = new System.Timers.Timer(10000);
                 aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
 
-                int interval = 3600000;
+                int interval = 300000;
                 aTimer.Interval = interval;
                 aTimer.Enabled = true;
-
-                if (Constants.STATIC_RUN_COUNTER == 0)
+                if (!started)
                 {
                     runThread();
                 }
@@ -40,9 +35,8 @@ namespace open_audit_service
             catch (Exception ex)
             {
                 util.writeEventLog(ex.Message);
-                util.writeEventLog(ex.StackTrace);  
+                util.writeEventLog(ex.StackTrace);
             }
-            
         }
 
         protected override void OnStop()
@@ -61,7 +55,6 @@ namespace open_audit_service
                 util.writeEventLog(ex.Message);
                 util.writeEventLog(ex.StackTrace);
             }
-            
         }
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
@@ -75,21 +68,15 @@ namespace open_audit_service
                 util.writeEventLog(ex.Message);
                 util.writeEventLog(ex.StackTrace);
             }
-            
+
         }
 
         private void runThread()
         {
-            ServiceThreadImpl serviceTimpl = new ServiceThreadImpl();
-            Thread serviceThread = new Thread(new ThreadStart(serviceTimpl.runHeartBeat));
+            CheckServiceThreadImpl serviceTimpl = new CheckServiceThreadImpl("open-audit-service");
+            Thread serviceThread = new Thread(new ThreadStart(serviceTimpl.runServiceCheck));
             serviceThread.Start();
-
-            if (Constants.STATIC_RUN_COUNTER > 0)
-            {
-                CheckServiceThreadImpl checkServiceTimpl = new CheckServiceThreadImpl("open-audit-check-service");
-                Thread checkServiceThread = new Thread(new ThreadStart(checkServiceTimpl.run));
-                checkServiceThread.Start();
-            }
+            started = true;
         }
     }
 }
