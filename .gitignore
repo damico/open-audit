@@ -1,7 +1,10 @@
-﻿################################################################################
+################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
 /windows-land/dist/conf
 /windows-land/dist/conf/open-audit.conf
-
+/windows-land/*/bin/Debug
+/windows-land/*/bin/Release
+/windows-land/*/obj/Debug
+/windows-land/*/obj/Release
