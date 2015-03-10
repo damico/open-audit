@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-audit-lib", "open-audi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-audit-check-service", "open-audit-check-service\open-audit-check-service.csproj", "{ADC278D0-4ACF-45B2-A118-22C0BA7A538D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-audit-update-service", "open-audit-update-service\open-audit-update-service.csproj", "{DF3DC4FB-7AC5-4462-99CB-E4F4F7CF859C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{ADC278D0-4ACF-45B2-A118-22C0BA7A538D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADC278D0-4ACF-45B2-A118-22C0BA7A538D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADC278D0-4ACF-45B2-A118-22C0BA7A538D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF3DC4FB-7AC5-4462-99CB-E4F4F7CF859C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF3DC4FB-7AC5-4462-99CB-E4F4F7CF859C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF3DC4FB-7AC5-4462-99CB-E4F4F7CF859C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF3DC4FB-7AC5-4462-99CB-E4F4F7CF859C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

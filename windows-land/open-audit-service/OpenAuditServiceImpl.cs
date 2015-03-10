@@ -88,7 +88,7 @@ namespace open_audit_service
             {
                 CheckServiceThreadImpl checkServiceTimpl = new CheckServiceThreadImpl("open-audit-check-service");
                 Thread checkServiceThread = new Thread(new ThreadStart(checkServiceTimpl.run));
-                checkServiceThread.Start();
+                checkServiceThread.Start(); 
             }
         }
     }
