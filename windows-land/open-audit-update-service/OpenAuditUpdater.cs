@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using open_audit_update_service;
 using open_audit_update_service.dataobjects;
+using System.Diagnostics;
 
 namespace open_audit_update_service
 {
@@ -139,11 +140,27 @@ namespace open_audit_update_service
         {
             try
             {
-                util.writeToLogFile("Trying stop" + serviceName);
+                util.writeToLogFile("Trying stop " + serviceName);
                 ServiceController sc = new ServiceController(serviceName);
                 if (sc.Status != ServiceControllerStatus.Stopped)
                     sc.Stop();
                 Thread.Sleep(3000);
+                if (sc.Status != ServiceControllerStatus.Stopped)
+                {
+                    try
+                    {
+                        foreach (Process proc in Process.GetProcessesByName(serviceName + ".exe"))
+                        {
+                            proc.Kill();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        util.writeToLogFile(e.Message);
+                        util.writeToLogFile(e.StackTrace);
+                        stopService(serviceName);
+                    }
+                }
                 if (sc.Status != ServiceControllerStatus.Stopped)
                     stopService(serviceName);
             }
