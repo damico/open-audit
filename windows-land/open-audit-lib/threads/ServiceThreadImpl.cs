@@ -60,7 +60,7 @@ namespace open_audit_lib.threads
                 sw.Start();
                 content = util.getTextFromUrl(cfg.downloadUrl);
                 sw.Stop();
-                if (content.Length == 1048586)
+                if (content.Length == 1048586)  
                 {
                     elapsed = sw.ElapsedMilliseconds;
                     util.getUrlStatusCode(cfg.remoteServer + "?action=DW&version=" + cfg.version + "&strId=" + cfg.strId + "&elapsed=" + elapsed);
