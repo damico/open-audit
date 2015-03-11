@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("open-audit-check-service")]
 [assembly: AssemblyDescription("Service Checker for Open Audit main service")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("JOSE DAMICO")]
+[assembly: AssemblyCompany("PEDRO CHAGAS")]
 [assembly: AssemblyProduct("open-audit-check-service")]
-[assembly: AssemblyCopyright("Copyleft  2014 - JOSE DAMICO")]
+[assembly: AssemblyCopyright("Copyleft  2014 - PEDRO CHAGAS")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.0.742")]
-[assembly: AssemblyFileVersion("0.0.0.742")]
+[assembly: AssemblyVersion("0.0.1.0")]
+[assembly: AssemblyFileVersion("0.0.1.0")]
