@@ -2,24 +2,24 @@
 #pragma parseroption -b- -u+
 #pragma verboselevel 9
 #define MyAppName "Open Audit"
-#define MyAppVersion "0.74"
-#define MyAppPublisher "JOSE DAMICO"
+#define MyAppVersion "1.0"
+#define MyAppPublisher "PEDRO CHAGAS"
 #define MyAppURL "https:\\github.com\damico\open-audit"
 
 [Setup]
 AppId=OpenAudit-windows-land
-AppPublisher=JOSE_DAMICO
+AppPublisher=EIG Mercados
 AppPublisherURL=https:\\github.com\damico\open-audit
 PrivilegesRequired=admin
 AppName=OpenAudit
-AppVersion=0.74
+AppVersion=1.0
 DefaultDirName={pf}\open-audit
 DefaultGroupName=OpenAudit
 Compression=lzma2
 SolidCompression=yes
 UninstallDisplayIcon={app}\open-audit-config.exe
 SetupIconFile=pkg\Hopstarter-Scrap-Magnifying-Glass.ico
-OutputBaseFilename=pkg\open-audit-setup-0.74
+OutputBaseFilename=pkg\open-audit-setup-1.0
 OutputDir=.\
 
 
@@ -29,6 +29,7 @@ Source: "..\..\open-audit-config\bin\release\open-audit-lib.dll"; DestDir: "{app
 Source: "pkg\conf\open-audit.conf"; DestDir: "{app}\conf";
 Source: "pkg\conf\up.dat"; DestDir: "{app}\conf";
 Source: "..\..\open-audit-check-service\bin\release\open-audit-check-service.exe"; DestDir: "{app}";
+Source: "..\..\open-audit-update-service\bin\release\open-audit-update-service.exe"; DestDir: "{app}";
 Source: "..\..\open-audit-service\bin\release\open-audit-service.exe"; DestDir: "{app}"; AfterInstall: AfterMyProgInstall()
 
 
