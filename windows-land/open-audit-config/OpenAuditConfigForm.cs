@@ -28,24 +28,40 @@ namespace open_audit_config
             }
         }
 
+        private bool restarted;
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            Start();
+        }
+
+        private void Start()
+        {
+            if (!restarted)
+            {
+                // restart services
+                Utils u = new Utils();
+                Constants.StartServices(u);
+                restarted = true;
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            
             registerConfig(textBoxId.Text);
-            
-            
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             textBoxDetails.SelectAll();
             System.Windows.Forms.Clipboard.SetText(textBoxDetails.Text);
-            MessageBox.Show("Message copied!",  Constants.APP_NAME);
+            MessageBox.Show("Message copied!", Constants.APP_NAME);
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button1_Click_2(object sender, EventArgs e)
@@ -68,8 +84,8 @@ namespace open_audit_config
                     ConfigObj cfg = util.readConfig();
                     if (cfg != null && cfg.remoteServer != null && cfg.remoteServer.Length > 12)
                     {
-                        String newCfg = util.getTextFromUrl(cfg.remoteServer + "?action=config&data=" + textBoxId.Text + "&version="+util.getAssemblyVersion());
-                        
+                        String newCfg = util.getTextFromUrl(cfg.remoteServer + "?action=config&data=" + textBoxId.Text + "&version=" + util.getAssemblyVersion());
+
                         if (newCfg != null)
                         {
                             cfg = util.parseConfig(newCfg);
@@ -85,7 +101,8 @@ namespace open_audit_config
                                     if (code.Equals("OK"))
                                     {
                                         textBoxDetails.Text = "SUCCESS! ";
-                                        System.Environment.Exit(0);
+                                        Start();
+                                        Environment.Exit(0);
                                     }
                                     else sb.Append("Unable to reach remote target! ");
                                 }

@@ -25,7 +25,7 @@ namespace open_audit_service
         {
             try
             {
-                aTimer = new System.Timers.Timer(10000);
+                aTimer = new System.Timers.Timer();
                 aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
 
                 int interval = 3600000;
@@ -42,7 +42,6 @@ namespace open_audit_service
                 util.writeEventLog(ex.Message);
                 util.writeEventLog(ex.StackTrace);  
             }
-            
         }
 
         protected override void OnStop()
@@ -75,7 +74,6 @@ namespace open_audit_service
                 util.writeEventLog(ex.Message);
                 util.writeEventLog(ex.StackTrace);
             }
-            
         }
 
         private void runThread()

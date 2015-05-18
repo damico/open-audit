@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ServiceProcess;
 using System.Text;
 
 namespace open_audit_lib
@@ -14,5 +15,29 @@ namespace open_audit_lib
 
         public static int LOG_FILE_MAX_SIZE = 5120;
         public const String LOG_NAME = "open-audit.log";
+
+        public static readonly string[] SERVICES = new string[]
+        {
+            "open-audit-service",
+            "open-audit-check-service"
+        };
+
+        public static void KillServices(Utils util = null)
+        {
+            for (int i = 0; i < SERVICES.Length; i++)
+            {
+                string s = SERVICES[i];
+                ServiceUtil.StopService(s, util);
+            }
+        }
+
+        public static void StartServices(Utils util = null)
+        {
+            for (int i = 0; i < SERVICES.Length; i++)
+            {
+                string s = SERVICES[i];
+                ServiceUtil.StartService(s, util);
+            }
+        }
     }
 }

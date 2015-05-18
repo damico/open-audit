@@ -13,14 +13,9 @@ namespace open_audit_service
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        ///
-
-
-
         static void Main(string[] args)
         {
-
-            if (System.Environment.UserInteractive)
+            if (Environment.UserInteractive)
             {
                 string parameter = string.Concat(args);
                 switch (parameter)
@@ -39,17 +34,17 @@ namespace open_audit_service
             else
             {
                 ServiceBase[] ServicesToRun;
-                ServicesToRun = new ServiceBase[] 
-            { 
-                new OpenAuditServiceImpl() 
-            };
+                ServicesToRun = new ServiceBase[]
+                {
+                    new OpenAuditServiceImpl()
+                };
                 ServiceBase.Run(ServicesToRun);
             }
-
-
-            
         }
 
+        /// <summary>
+        /// Starts the OpenAudit service
+        /// </summary>
         private static void serviceStart()
         {
             ServiceController[] scServices;
@@ -57,10 +52,9 @@ namespace open_audit_service
 
             foreach (ServiceController scTemp in scServices)
             {
-
+                // checks if the service is installed on the users machine
                 if (scTemp.ServiceName == "open-audit-service")
                 {
-
                     ServiceController sc = new ServiceController("open-audit-service");
                     if (sc.Status == ServiceControllerStatus.Stopped)
                     {

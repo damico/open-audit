@@ -23,10 +23,17 @@ namespace open_audit_config
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Utils u = new Utils();
-            ConfigObj config = u.readConfig();
-            if(config.strId.Length <= 2) Application.Run(new OpenAuditConfigForm(arg));
-            else System.Environment.Exit(0);
+            // kill the open audit services
+            MessageBox.Show("Terminando serviços OpenAudit....");
+            Constants.KillServices();
+
+            //Utils u = new Utils();
+            //ConfigObj config = u.readConfig();
+            //if (config.strId.Length <= 2)
+            {
+                Application.Run(new OpenAuditConfigForm(arg));
+            }
+            //else System.Environment.Exit(0);
         }
     }
 }

@@ -10,6 +10,9 @@ namespace open_audit_lib.threads
 {
     public class ServiceThreadImpl
     {
+        /// <summary>
+        /// Measures the upload speed
+        /// </summary>
         public void runUploadTrafficSensor()
         {
             Stopwatch sw = new Stopwatch();
@@ -40,11 +43,12 @@ namespace open_audit_lib.threads
                 util.writeEventLog(e.Message);
                 util.writeEventLog(e.StackTrace);
             }
-
-
         }
 
-
+        /// <summary>
+        /// Measures the download speed
+        /// </summary>
+        /// <returns></returns>
         public Boolean runDownloadTrafficSensor()
         {
             Boolean hasNewVersion = false;
@@ -54,7 +58,6 @@ namespace open_audit_lib.threads
             long elapsed = -1L;
             try
             {
-
                 ConfigObj cfg = util.readConfig();
 
                 sw.Start();
@@ -65,7 +68,7 @@ namespace open_audit_lib.threads
                     elapsed = sw.ElapsedMilliseconds;
                     util.getUrlStatusCode(cfg.remoteServer + "?action=DW&version=" + cfg.version + "&strId=" + cfg.strId + "&elapsed=" + elapsed);
 
-                    #region Check if the current service version is equals to server service version
+                    // Check if the current service version is equals to server service version
 
                     String[] words = content.Split(' ');
                     String serverVersion = null;
@@ -78,8 +81,6 @@ namespace open_audit_lib.threads
                             hasNewVersion = true;
                         }
                     }
-
-                    #endregion
                 }
 
             }
@@ -93,6 +94,9 @@ namespace open_audit_lib.threads
 
         }
 
+        /// <summary>
+        /// Sends a heart-beat to the server, while also checking for updates
+        /// </summary>
         public void runHeartBeat()
         {
             Boolean hasNewVersion = false;
@@ -100,7 +104,6 @@ namespace open_audit_lib.threads
             Utils util = new Utils();
             try
             {
-
                 ConfigObj cfg = util.readConfig();
                 if (cfg != null && cfg.remoteTarget != null && cfg.remoteServer != null && cfg.strId != null)
                 {
@@ -120,11 +123,15 @@ namespace open_audit_lib.threads
                             hasNewVersion = runDownloadTrafficSensor();
                             runUploadTrafficSensor();
                             if (hasNewVersion)
-                                this.updateService();
-                            
+                            {
+                                updateService();
+                            }
                         }
                     }
-                    else Constants.STATIC_ERROR_COUNTER++;
+                    else
+                    {
+                        Constants.STATIC_ERROR_COUNTER++;
+                    }
                 }
             }
             catch (Exception e)
@@ -133,10 +140,11 @@ namespace open_audit_lib.threads
                 util.writeEventLog(e.Message);
                 util.writeEventLog(e.StackTrace);
             }
-
         }
 
-
+        /// <summary>
+        /// Executes the Update service
+        /// </summary>
         private void updateService()
         {
             Utils util = new Utils();

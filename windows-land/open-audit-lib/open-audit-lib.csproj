@@ -46,6 +46,7 @@
     <Compile Include="threads\ServiceThreadImpl.cs" />
     <Compile Include="commons\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\ServiceUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Hopstarter-Scrap-Magnifying-Glass.ico" />

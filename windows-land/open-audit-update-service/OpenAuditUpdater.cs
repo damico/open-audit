@@ -14,7 +14,10 @@ using System.Diagnostics;
 
 namespace open_audit_update_service
 {
-    class OpenAuditUpdater
+    /// <summary>
+    /// Updates the Open Audit software
+    /// </summary>
+    public class OpenAuditUpdater
     {
         [DllImport("kernel32.dll")]
         static extern IntPtr GetConsoleWindow();
@@ -26,43 +29,45 @@ namespace open_audit_update_service
         const int SW_SHOW = 5;
         static Utils util = new Utils();
 
+        public static readonly string EIGURL = "http://www.eigmercados.com.br/";
+
         static void Main(string[] args)
         {
             try
             {
+                retry:
 
                 util.writeToLogFile("Starting Update");
-                #region Hide Console Window In Order To Update Quietly
+                
+                // Hide console window ( update silently )
                 var handle = GetConsoleWindow();
                 ShowWindow(handle, SW_HIDE);
-                #endregion
 
-                #region If the computer has internet working
+                // Check for an internet connection
                 util.writeToLogFile("Testing Internet Connection");
-                if (System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable() &&
-                    new System.Net.NetworkInformation.Ping().Send("www.eigmercados.com.br").Status == IPStatus.Success)
+
+                if (NetworkInterface.GetIsNetworkAvailable() &&
+                    new Ping().Send(EIGURL).Status == IPStatus.Success)
                 {
                     util.writeToLogFile("There is Internet Connection");
 
-                    #region Check If Service are Stopped, if not stop them
+                    // Check if services are stopped, if not stop them
                     util.writeToLogFile("Stopping services");
                     stopService("open-audit-service");
                     stopService("open-audit-check-service");
-                    #endregion
 
-
-                    #region Download Files
+                    // Download Files
                     try
                     {
-
                         util.writeToLogFile("Creating temporary directory");
                         if (Directory.Exists(util.getPfPath() + "\\temp"))
+                        {
                             Directory.Delete(util.getPfPath() + "\\temp", true);
+                        }
                         Directory.CreateDirectory(util.getPfPath() + "\\temp");
 
-
                         util.writeToLogFile("Downloading files...");
-                        String mainPath = "https://eigmercados.com.br/open_audit/update/";
+                        String mainPath = EIGURL + "open_audit/update/";
                         WebClient webClient = new WebClient();
                         webClient.DownloadFile(mainPath + "open-audit-service.exe", util.getPfPath() + "\\temp\\open-audit-service.exe");
                         webClient.DownloadFile(mainPath + "open-audit-config.exe", util.getPfPath() + "\\temp\\open-audit-config.exe");
@@ -75,9 +80,8 @@ namespace open_audit_update_service
                         util.writeToLogFile(e.Message);
                         util.writeToLogFile(e.StackTrace);
                         Thread.Sleep(30000);
-                        Main(null);
+                        goto retry;
                     }
-                    #endregion
 
                     util.writeToLogFile("Updating");
 
@@ -97,21 +101,15 @@ namespace open_audit_update_service
                         newConfig.strId = config.strId;
                         util.writeConfig(newConfig, util.getConfPath(Constants.CONF_PATH));
 
-
-                        #region Clean Temp Directory
-
+                        // Clean temp directory
                         util.writeToLogFile("Cleaning Temporary Files");
                         Directory.Delete(util.getPfPath() + "\\temp", true);
 
-                        #endregion
-
-                        #region Start Services
+                        // Start Services
                         util.writeToLogFile("Starting services again");
                         startService("open-audit-service");
                         startService("open-audit-check-service");
                         util.writeToLogFile("DONE!");
-                        #endregion
-
                     }
                     else
                     {
@@ -126,7 +124,6 @@ namespace open_audit_update_service
                     Thread.Sleep(30000);
                     Main(null);
                 }
-                #endregion
             }
             catch (Exception e)
             {
@@ -136,17 +133,24 @@ namespace open_audit_update_service
 
         }
 
+        /// <summary>
+        /// Stops the service with the designated name
+        /// </summary>
+        /// <param name="serviceName">The name of the service to stop</param>
         private static void stopService(string serviceName)
         {
             try
             {
-                util.writeToLogFile("Trying stop " + serviceName);
+                util.writeToLogFile("Trying to stop " + serviceName);
                 ServiceController sc = new ServiceController(serviceName);
                 if (sc.Status != ServiceControllerStatus.Stopped)
+                {
                     sc.Stop();
-                Thread.Sleep(3000);
+                }
+                Thread.Sleep(3000); // wait 3 seconds
                 if (sc.Status != ServiceControllerStatus.Stopped)
                 {
+                    // The service is still open, just kill it
                     try
                     {
                         foreach (Process proc in Process.GetProcessesByName(serviceName + ".exe"))
@@ -162,7 +166,9 @@ namespace open_audit_update_service
                     }
                 }
                 if (sc.Status != ServiceControllerStatus.Stopped)
+                {
                     stopService(serviceName);
+                }
             }
             catch (Exception e)
             {
@@ -171,6 +177,10 @@ namespace open_audit_update_service
             }
         }
 
+        /// <summary>
+        /// Starts a service
+        /// </summary>
+        /// <param name="serviceName">The name of the service to start</param>
         private static void startService(string serviceName)
         {
             try
@@ -187,17 +197,22 @@ namespace open_audit_update_service
                 util.writeToLogFile(e.StackTrace);
             }
         }
-
+            
+        /// <summary>
+        /// Copies the files from the temp folder to the application folder
+        /// </summary>
+        /// <returns></returns>
         private static bool replaceFiles()
         {
-            bool ret = true;
+            bool ret = false;
             try
             {
-                File.Copy(util.getPfPath() + "\\temp\\open-audit-service.exe", util.getPfPath() + "\\open-audit-service.exe", true);
-                File.Copy(util.getPfPath() + "\\temp\\open-audit-config.exe", util.getPfPath() + "\\open-audit-config.exe", true);
-                File.Copy(util.getPfPath() + "\\temp\\open-audit-check-service.exe", util.getPfPath() + "\\open-audit-check-service.exe", true);
-                File.Copy(util.getPfPath() + "\\temp\\open-audit.conf", util.getPfPath() + "\\conf\\open-audit.conf", true);
-                File.Copy(util.getPfPath() + "\\temp\\open-audit-lib.dll", util.getPfPath() + "\\open-audit-lib.dll", true);
+                File.Copy(util.getPfPath() + @"\temp\open-audit-service.exe", util.getPfPath() + @"\open-audit-service.exe", true);
+                File.Copy(util.getPfPath() + @"\temp\open-audit-config.exe", util.getPfPath() + @"\open-audit-config.exe", true);
+                File.Copy(util.getPfPath() + @"\temp\open-audit-check-service.exe", util.getPfPath() + @"\open-audit-check-service.exe", true);
+                File.Copy(util.getPfPath() + @"\temp\open-audit.conf", util.getPfPath() + @"\conf\open-audit.conf", true);
+                File.Copy(util.getPfPath() + @"\temp\open-audit-lib.dll", util.getPfPath() + @"\open-audit-lib.dll", true);
+                ret = true;
             }
             catch (Exception e)
             {
@@ -205,6 +220,7 @@ namespace open_audit_update_service
                 util.writeToLogFile(e.StackTrace);
                 ret = false;
             }
+
             return ret;
         }
     }
