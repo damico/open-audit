@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.ServiceProcess;
 using System.Text;
@@ -10,11 +11,17 @@ namespace open_audit_lib.threads
 {
     public class ServiceThreadImpl
     {
+        public void runUploadTrafficSensor()
+        {
+            double s;
+            runUploadTrafficSensor(out s);
+        }
         /// <summary>
         /// Measures the upload speed
         /// </summary>
-        public void runUploadTrafficSensor()
+        public void runUploadTrafficSensor(out double speed)
         {
+            speed = -1;
             Stopwatch sw = new Stopwatch();
             Utils util = new Utils();
             String content = null;
@@ -28,12 +35,19 @@ namespace open_audit_lib.threads
                 System.Net.WebClient Client = new System.Net.WebClient();
                 Client.Headers.Add("Content-Type", "binary/octet-stream");
                 String upPath = util.getConfPath(Constants.UP_PATH);
+                FileInfo upFile = new FileInfo(upPath);
+
                 result = Client.UploadFile(cfg.uploadUrl, "POST", upPath);
                 content = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
                 sw.Stop();
                 if (content.Equals("OK"))
                 {
                     elapsed = sw.ElapsedMilliseconds;
+
+                    long size = upFile.Length;
+                    speed = size / sw.Elapsed.TotalSeconds / 1024;
+
+
                     util.getUrlStatusCode(cfg.remoteServer + "?action=UP&version=" + cfg.version + "&strId=" + cfg.strId + "&elapsed=" + elapsed);
                 }
 
@@ -45,12 +59,21 @@ namespace open_audit_lib.threads
             }
         }
 
+
+        public bool runDownloadTrafficSensor()
+        {
+            double s;
+            return runDownloadTrafficSensor(out s);
+        }
+
         /// <summary>
         /// Measures the download speed
         /// </summary>
         /// <returns></returns>
-        public Boolean runDownloadTrafficSensor()
+        public bool runDownloadTrafficSensor(out double speed)
         {
+            speed = -1;
+
             Boolean hasNewVersion = false;
             Utils util = new Utils();
             Stopwatch sw = new Stopwatch();
@@ -63,9 +86,12 @@ namespace open_audit_lib.threads
                 sw.Start();
                 content = util.getTextFromUrl(cfg.downloadUrl);
                 sw.Stop();
-                if (content.Length == 1048586)  
+                if (content.Length == 1048586)
                 {
                     elapsed = sw.ElapsedMilliseconds;
+                    long size = Encoding.ASCII.GetByteCount(content);
+                    speed = size / sw.Elapsed.TotalSeconds / 1024;
+
                     util.getUrlStatusCode(cfg.remoteServer + "?action=DW&version=" + cfg.version + "&strId=" + cfg.strId + "&elapsed=" + elapsed);
 
                     // Check if the current service version is equals to server service version

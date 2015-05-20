@@ -51,14 +51,11 @@ namespace open_audit_lib
 
         public String getTextFromUrl(String urlStr)
         {
-
             ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
             String ret = null;
 
             try
             {
-
-
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlStr);
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 if (response.StatusCode == HttpStatusCode.OK)
@@ -74,9 +71,6 @@ namespace open_audit_lib
 
             return ret;
         }
-
-        
-
 
         public void writeConfig(ConfigObj config, String configPath)
         {
