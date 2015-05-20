@@ -1,4 +1,5 @@
-﻿using open_audit_lib.threads;
+﻿using open_audit_lib;
+using open_audit_lib.threads;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,10 @@ namespace open_audit_tests
             ServiceThreadImpl t = new ServiceThreadImpl();
 
             double speed;
-            t.runDownloadTrafficSensor(out speed);
+            speed = WebUtil.DownloadSpeed(false);
             Console.WriteLine("Download speed detected: " + speed.ToString("0.#") + "kbps");
 
-            t.runUploadTrafficSensor(out speed);
+            t.runUploadTrafficSensor(1024, out speed);
             Console.WriteLine("Upload speed detected: " + speed.ToString("0.#") + "kbps");
 
             Console.ReadLine();

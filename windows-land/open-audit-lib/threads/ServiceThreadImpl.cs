@@ -14,12 +14,12 @@ namespace open_audit_lib.threads
         public void runUploadTrafficSensor()
         {
             double s;
-            runUploadTrafficSensor(out s);
+            runUploadTrafficSensor(1024, out s);
         }
         /// <summary>
         /// Measures the upload speed
         /// </summary>
-        public void runUploadTrafficSensor(out double speed)
+        public void runUploadTrafficSensor(long uploadSize, out double speed)
         {
             speed = -1;
             Stopwatch sw = new Stopwatch();
@@ -31,23 +31,26 @@ namespace open_audit_lib.threads
             {
 
                 ConfigObj cfg = util.readConfig();
-                sw.Start();
                 System.Net.WebClient Client = new System.Net.WebClient();
                 Client.Headers.Add("Content-Type", "binary/octet-stream");
-                String upPath = util.getConfPath(Constants.UP_PATH);
-                FileInfo upFile = new FileInfo(upPath);
 
-                result = Client.UploadFile(cfg.uploadUrl, "POST", upPath);
-                content = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
+                byte[] updata = new byte[uploadSize];
+                Random rng = new Random();
+                for (int i = 0; i < uploadSize; i++)
+                {
+                    updata[i] = (byte)rng.Next(0, 255);
+                }
+
+                sw.Start();
+                result = Client.UploadData(cfg.uploadUrl, "POST", updata);
                 sw.Stop();
+
+                elapsed = sw.ElapsedMilliseconds;
+                speed = uploadSize / sw.Elapsed.TotalSeconds / 1024.0;
+
+                content = System.Text.Encoding.UTF8.GetString(result, 0, result.Length);
                 if (content.Equals("OK"))
                 {
-                    elapsed = sw.ElapsedMilliseconds;
-
-                    long size = upFile.Length;
-                    speed = size / sw.Elapsed.TotalSeconds / 1024;
-
-
                     util.getUrlStatusCode(cfg.remoteServer + "?action=UP&version=" + cfg.version + "&strId=" + cfg.strId + "&elapsed=" + elapsed);
                 }
 

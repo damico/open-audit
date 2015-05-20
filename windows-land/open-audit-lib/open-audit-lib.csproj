@@ -47,6 +47,7 @@
     <Compile Include="commons\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\ServiceUtil.cs" />
+    <Compile Include="Util\WebUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Hopstarter-Scrap-Magnifying-Glass.ico" />
