@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DF3DC4FB-7AC5-4462-99CB-E4F4F7CF859C}</ProjectGuid>
+    <ProjectGuid>{FD550B35-18A9-49A0-BFF0-32FF52A861C0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>open_audit_update_service</RootNamespace>
-    <AssemblyName>open-audit-update-service</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>open_audit_tests</RootNamespace>
+    <AssemblyName>open-audit-tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,24 +30,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Oxygen-Icons.org-Oxygen-Apps-system-software-update.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>true</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>1BA2D1F217ABFE5BBA7B3CF24A0027F71CD3A7E7</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>CodeSign.pfx</ManifestKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,17 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="commons\Constants.cs" />
-    <Compile Include="commons\Utils.cs" />
-    <Compile Include="dataobjects\ConfigObj.cs" />
-    <Compile Include="OpenAuditUpdater.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Oxygen-Icons.org-Oxygen-Apps-system-software-update.ico" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CodeSign.pfx" />
+    <ProjectReference Include="..\open-audit-lib\open-audit-lib.csproj">
+      <Project>{836df938-6fa4-4757-8724-4305a600620a}</Project>
+      <Name>open-audit-lib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

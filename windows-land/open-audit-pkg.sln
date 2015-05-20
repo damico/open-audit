@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-audit-service", "open-audit-service\open-audit-service.csproj", "{04E9F9C7-8E76-4BBA-8935-B7E65AB57DF5}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-audit-check-service", "open-audit-check-service\open-audit-check-service.csproj", "{ADC278D0-4ACF-45B2-A118-22C0BA7A538D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-audit-update-service", "open-audit-update-service\open-audit-update-service.csproj", "{DF3DC4FB-7AC5-4462-99CB-E4F4F7CF859C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "open-audit-tests", "open-audit-tests\open-audit-tests.csproj", "{FD550B35-18A9-49A0-BFF0-32FF52A861C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{DF3DC4FB-7AC5-4462-99CB-E4F4F7CF859C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF3DC4FB-7AC5-4462-99CB-E4F4F7CF859C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF3DC4FB-7AC5-4462-99CB-E4F4F7CF859C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD550B35-18A9-49A0-BFF0-32FF52A861C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD550B35-18A9-49A0-BFF0-32FF52A861C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD550B35-18A9-49A0-BFF0-32FF52A861C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD550B35-18A9-49A0-BFF0-32FF52A861C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
