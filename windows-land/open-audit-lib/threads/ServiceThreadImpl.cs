@@ -1,4 +1,5 @@
-﻿using open_audit_lib.dataobjects;
+﻿using Newtonsoft.Json;
+using open_audit_lib.dataobjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -137,6 +138,18 @@ namespace open_audit_lib.threads
                 if (cfg != null && cfg.remoteTarget != null && cfg.remoteServer != null && cfg.strId != null)
                 {
                     String data = util.getUrlStatusCode(cfg.remoteTarget);
+
+                    HeartbeatData h = new HeartbeatData();
+
+                    h.downloadSpeed = WebUtil.DownloadSpeed(false);
+                    runUploadTrafficSensor(1024, out h.uploadSpeed);
+                    h.assVersion = util.getAssemblyVersion();
+                    h.errorCounter = Constants.STATIC_ERROR_COUNTER;
+                    h.runCounter = Constants.STATIC_RUN_COUNTER;
+                    h.strId = cfg.strId;
+                    h.version = cfg.version;
+                    string json = JsonConvert.SerializeObject(h);
+
                     String link = cfg.remoteServer + "?action=ACK&data=" + data + "&version=" + util.getAssemblyVersion() + "&strId=" + cfg.strId + "&errorcounter=" + Constants.STATIC_ERROR_COUNTER + "&runcounter=" + Constants.STATIC_RUN_COUNTER;
                     link = link.Trim();
                     String code = util.getUrlStatusCode(link);
